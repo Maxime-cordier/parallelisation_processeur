@@ -1,0 +1,42 @@
+"normal" :{
+    "executablePath": "./ExCodeSequentiel/CodeSequentiel",
+    "total_execution_time" : 0.0,
+    "execution_times" : [],
+    "color" : "blue"
+},
+"SSE" :{
+    "executablePath": "./ExCodeSequentielSSE/CodeSequentielSSE",
+    "total_execution_time" : 0.0,
+    "execution_times" : [],
+    "color" : "red"
+},
+"SSE2" :{
+    "executablePath": "./ExCodeSequentielSSE2/CodeSequentielSSE2",
+    "total_execution_time" : 0.0,
+    "execution_times" : [],
+    "color" : "green"
+},
+"SSE2_char" :{
+    "executablePath": "./ExCodeSequentielSSE2_char/CodeSequentielSSE2_char",
+    "total_execution_time" : 0.0,
+    "execution_times" : [],
+    "color" : "purple"
+},
+"AVX" :{
+    "executablePath": "./ExCodeSequentielAVX/CodeSequentielAVX",
+    "total_execution_time" : 0.0,
+    "execution_times" : [],
+    "color" : "orange"
+},
+"AVX2_short" :{
+    "executablePath": "./ExCodeSequentielAVX2_short/CodeSequentielAVX2_short",
+    "total_execution_time" : 0.0,
+    "execution_times" : [],
+    "color" : "black"
+},
+"AVX2_char" :{
+    "executablePath": "./ExCodeSequentielAVX2_char/CodeSequentielAVX2_char",
+    "total_execution_time" : 0.0,
+    "execution_times" : [],
+    "color" : "pink"
+},
