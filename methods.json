@@ -1,3 +1,4 @@
+{
 "normal" :{
     "executablePath": "./ExCodeSequentiel/CodeSequentiel",
     "total_execution_time" : 0.0,
@@ -40,3 +41,10 @@
     "execution_times" : [],
     "color" : "pink"
 },
+"CUDA" :{
+    "executablePath": "./ExCodeSequentielCUDA/CodeSequentielCUDA",
+    "total_execution_time" : 0.0,
+    "execution_times" : [],
+    "color" : "gold"
+}
+}

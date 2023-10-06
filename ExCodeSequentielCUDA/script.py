@@ -19,7 +19,7 @@ for i in range(1, 6):  # Modifier la plage selon vos besoins
     tailles.append(taille)
 
     # Exécuter le programme CUDA et récupérer la sortie
-    resultat = subprocess.run(["./CodeSequentielCUDA.cu", str(taille), "10"], capture_output=True, text=True)
+    resultat = subprocess.run(["./CodeSequentielCUDA", str(taille), "10"], capture_output=True, text=True)
 
     # Extraire les temps d'exécution GPU et CPU à partir de la sortie
     sortie = resultat.stdout

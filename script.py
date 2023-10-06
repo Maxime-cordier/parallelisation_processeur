@@ -5,7 +5,6 @@ from tqdm import tqdm
 
 
 dico = {
-    
     "normal" :{
     "executablePath": "./ExCodeSequentiel/CodeSequentiel",
     "total_execution_time" : 0.0,
@@ -48,6 +47,13 @@ dico = {
     "execution_times" : [],
     "color" : "pink"
 },
+"CUDA" :{
+    "executablePath": "./ExCodeSequentielCUDA/CodeSequentielCUDA",
+    "total_execution_time" : 0.0,
+    "execution_times" : [],
+    "color" : "gold"
+},
+
 }
 
 nb_iteration = int(input("Nombre d'itérations : "))
@@ -80,5 +86,5 @@ plt.title("Temps d'execution des differents parallélismes")
 plt.legend()
 #save
 plt.gcf().set_size_inches(12, 8)
-plt.savefig("results_SSE_AVX.png")
+plt.savefig("results_SSE_AVX_CUDA_sans_transfert.png")
 plt.show()

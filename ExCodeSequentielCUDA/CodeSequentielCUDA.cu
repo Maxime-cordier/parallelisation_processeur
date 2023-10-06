@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <sys/time.h>
 
 
 #define MAX_CHAINE 100
@@ -36,10 +35,13 @@
 #define true 1
 #define boolean int
 
-#define initTimer struct timeval tv1, tv2; struct timezone tz
-#define startTimer gettimeofday(&tv1, &tz)
-#define stopTimer gettimeofday(&tv2, &tz)
-#define tpsCalcul (tv2.tv_sec-tv1.tv_sec) + (tv2.tv_usec-tv1.tv_usec)
+#include <time.h>
+
+#define InitClock    struct timespec start, stop
+#define ClockStart   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start)
+#define ClockEnd   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &stop)
+#define BILLION  1000000000L
+#define ClockMesureSec "%2.9f s\n",(( stop.tv_sec - start.tv_sec )+ (stop.tv_nsec - start.tv_nsec )/(double)BILLION) 
 
 
 #define BLOCKSIZE 1024
@@ -84,7 +86,7 @@ int main(int argc, char **argv) {
 	char *Chemin;
 	
 
-initTimer;
+InitClock;
 
 	/*========================================================================*/
 	/* Recuperation des parametres						*/
@@ -245,17 +247,13 @@ initTimer;
 		dimGrid++;
 	}
 	
-startTimer;
-
 	int res = cudaMemcpy(&cuda_image[0], &image[0], size, cudaMemcpyHostToDevice);
-
+ClockStart;
 	rehaussement_contraste<<<dimGrid, dimBlock>>>(cuda_image, cuda_resultat, ETALEMENT, LE_MIN, TailleImage);
-	
+ClockEnd;
 	cudaMemcpy(&resultat[0], &cuda_resultat[0], size, cudaMemcpyDeviceToHost);
 
-stopTimer;
-
-if TPSCALCUL printf("%ld secondes",tpsCalcul);
+if TPSCALCUL printf(ClockMesureSec);
 
 	/*========================================================================*/
 	/* Sauvegarde de l'image dans le fichier resultat			*/
