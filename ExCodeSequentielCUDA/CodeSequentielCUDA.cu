@@ -203,6 +203,8 @@ InitClock;
 		LE_MAX = MAX(LE_MAX, image[i]);
 	}
 
+	printf("le min : %d \n", LE_MIN);
+
 	/*
 	for (i=0;i<Y;i++) {
 		for (j=0;j<X;j++) {
@@ -232,7 +234,6 @@ InitClock;
 	int *cuda_resultat;
 
 	int size = TailleImage * sizeof(int);
-	
 	
 	if (cudaMalloc((void **)&cuda_image, size) == cudaErrorMemoryAllocation) {
 		printf("Allocation memoire qui pose probleme (cudaVec) \n");
