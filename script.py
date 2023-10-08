@@ -5,50 +5,50 @@ from tqdm import tqdm
 
 
 dico = {
-    "normal" :{
-    "executablePath": "./ExCodeSequentiel/CodeSequentiel",
+    "Normal" :{
+    "executablePath": "./exCodeSequentiel/codeSequentiel",
     "total_execution_time" : 0.0,
     "execution_times" : [],
     "color" : "blue"
 },
-"SSE" :{
-    "executablePath": "./ExCodeSequentielSSE/CodeSequentielSSE",
+"SSE(Float)" :{
+    "executablePath": "./exCodeSequentielSseFloat/codeSequentielSseFloat",
     "total_execution_time" : 0.0,
     "execution_times" : [],
     "color" : "red"
 },
-"SSE2" :{
-    "executablePath": "./ExCodeSequentielSSE2/CodeSequentielSSE2",
+"SSE(Short)" :{
+    "executablePath": "./exCodeSequentielSseShort/codeSequentielSseShort",
     "total_execution_time" : 0.0,
     "execution_times" : [],
     "color" : "green"
 },
-"SSE2_char" :{
-    "executablePath": "./ExCodeSequentielSSE2_char/CodeSequentielSSE2_char",
+"SSE(Char)" :{
+    "executablePath": "./exCodeSequentielSseChar/codeSequentielSseChar",
     "total_execution_time" : 0.0,
     "execution_times" : [],
     "color" : "purple"
 },
-"AVX" :{
-    "executablePath": "./ExCodeSequentielAVX/CodeSequentielAVX",
+"AVX(Float)" :{
+    "executablePath": "./exCodeSequentielAvxFloat/codeSequentielAvxFloat",
     "total_execution_time" : 0.0,
     "execution_times" : [],
     "color" : "orange"
 },
-"AVX2_short" :{
-    "executablePath": "./ExCodeSequentielAVX2_short/CodeSequentielAVX2_short",
+"AVX(Short)" :{
+    "executablePath": "./exCodeSequentielAvxShort/codeSequentielAvxShort",
     "total_execution_time" : 0.0,
     "execution_times" : [],
     "color" : "black"
 },
-"AVX2_char" :{
-    "executablePath": "./ExCodeSequentielAVX2_char/CodeSequentielAVX2_char",
+"AVX(Char)" :{
+    "executablePath": "./exCodeSequentielAvxChar/codeSequentielAvxChar",
     "total_execution_time" : 0.0,
     "execution_times" : [],
     "color" : "pink"
 },
 "CUDA" :{
-    "executablePath": "./ExCodeSequentielCUDA/CodeSequentielCUDA",
+    "executablePath": "./exCodeSequentielCuda/codeSequentielCuda",
     "total_execution_time" : 0.0,
     "execution_times" : [],
     "color" : "gold"
@@ -57,7 +57,7 @@ dico = {
 }
 
 nb_iteration = int(input("Nombre d'itérations : "))
-image = "./Images/MontagneFoncee.pgm"
+image = "./images/MontagneFoncee.pgm"
 
 
 for i in tqdm(range(nb_iteration), desc="Progress", ncols=100):    
