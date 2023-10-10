@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
+#include <time.h>
 
 #define MAX_CHAINE 100
 #define MAX_HOSTS 100
@@ -35,14 +35,11 @@
 #define true 1
 #define boolean int
 
-#include <time.h>
-
 #define InitClock    struct timespec start, stop
 #define ClockStart   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start)
 #define ClockEnd   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &stop)
 #define BILLION  1000000000L
 #define ClockMesureSec "%2.9f s\n",(( stop.tv_sec - start.tv_sec )+ (stop.tv_nsec - start.tv_nsec )/(double)BILLION) 
-
 
 #define BLOCKSIZE 1024
 
@@ -145,53 +142,23 @@ InitClock;
 	/*========================================================================*/
 	
 	TailleImage = X * Y;
-
 	CALLOC(image, X*Y, int);
 	CALLOC(resultat, X*Y, int);
-
-/*
-	CALLOC(image, Y+1, int *);
-	CALLOC(resultat, Y+1, int *);
-	for (i=0;i<Y;i++) {
-		CALLOC(image[i], X+1, int);
-		CALLOC(resultat[i], X+1, int);
-		for (j=0;j<X;j++) {
-			image[i][j] = 0;
-			resultat[i][j] = 0;
-		}
-	}
-*/
 	if DEBUG printf("\t\t Initialisation de l'image [%d ; %d] : Ok \n", X, Y);
-			
-	
-	/*x = 0;
-	y = 0;*/
-	cpt = 0;
-	
-	//lignes = 0;
 	
 	/*========================================================================*/
 	/* Lecture du fichier pour remplir l'image source 			*/
 	/*========================================================================*/
 	
+	cpt = 0;
 	while (! feof(Src)) {
 		n = fscanf(Src,"%d",&P);
 
 		image[cpt] = P;
-		/*image[y][x] = P;*/
-		
-		//x ++;
 		cpt ++;
-
 		if (n == EOF || (cpt == X*Y)) {
 			break;
 		}
-
-
-		/*if (x == X) {
-			x = 0 ;
-			y++;
-		}*/
 	}
 
 
@@ -204,14 +171,6 @@ InitClock;
 	}
 
 	printf("le min : %d \n", LE_MIN);
-
-	/*
-	for (i=0;i<Y;i++) {
-		for (j=0;j<X;j++) {
-			LE_MIN = MIN(LE_MIN, image[i][j]);
-			LE_MAX = MAX(LE_MAX, image[i][j]);
-		}
-	}*/
 
 	if DEBUG printf("\t Min %d ; Max %d \n\n", LE_MIN, LE_MAX);
 
@@ -270,19 +229,6 @@ if TPSCALCUL printf(ClockMesureSec);
 			fprintf(Dst, "\n");
 		}
 	}
-
-	/*
-	for (i = 0 ; i < Y ; i++) {
-		for (j = 0 ; j < X ; j++) {
-			
-			fprintf(Dst,"%3d ",resultat[i][j]);
-			n++;
-			if (n == NBPOINTSPARLIGNES) {
-				n = 0;
-				fprintf(Dst, "\n");
-			}
-		}
-	}*/
 				
 	fprintf(Dst,"\n");
 	fclose(Dst);

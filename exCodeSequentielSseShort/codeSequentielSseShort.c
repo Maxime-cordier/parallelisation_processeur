@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <immintrin.h>
-
+#include <time.h>
 
 #define MAX_CHAINE 100
 #define MAX_HOSTS 100
@@ -35,9 +35,6 @@
 #define false 0
 #define true 1
 #define boolean int
-
-
-#include <time.h>
 
 #define InitClock    struct timespec start, stop
 #define ClockStart   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start)
@@ -84,7 +81,6 @@ int main(int argc, char **argv) {
 	char *Chemin;
 	char *CheminTache;
 	
-
 InitClock;
 
 	/*========================================================================*/

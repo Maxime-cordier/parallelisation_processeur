@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <immintrin.h>
-
+#include <time.h>
 
 #define MAX_CHAINE 100
 #define MAX_HOSTS 100
@@ -36,17 +36,11 @@
 #define true 1
 #define boolean int
 
-
-#include <time.h>
-
 #define InitClock    struct timespec start, stop
 #define ClockStart   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start)
 #define ClockEnd   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &stop)
 #define BILLION  1000000000L
 #define ClockMesureSec "%2.9f s\n",(( stop.tv_sec - start.tv_sec )+ (stop.tv_nsec - start.tv_nsec )/(double)BILLION) 
-
-
-
 
 #define DEBUG (0)
 #define TPSCALCUL (1)
@@ -67,8 +61,6 @@ int main(int argc, char **argv) {
 	
 	short *image;
 	short *resultat;
-	/*int **image;
-	int **resultat;*/
 	int X, Y, cpt;
 	int TailleImage;
 
@@ -81,7 +73,6 @@ int main(int argc, char **argv) {
 	char SrcFile[MAX_CHAINE];
 	char DstFile[MAX_CHAINE+4];
 	char ligne[MAX_CHAINE];
-	
 	
 	boolean fin ;
 	boolean inverse = false;
@@ -162,10 +153,8 @@ InitClock;
 	
 	while (! feof(Src)) {
 		n = fscanf(Src,"%d",&P);
-
 		image[cpt] = (short)P;
 		cpt ++;
-		
 		if (n == EOF || (cpt == X*Y)) {
 			break;
 		}
@@ -180,14 +169,6 @@ InitClock;
 		LE_MIN = MIN(LE_MIN, (int)image[i]);
 		LE_MAX = MAX(LE_MAX, (int)image[i]);
 	}
-
-	/*
-	for (i=0;i<Y;i++) {
-		for (j=0;j<X;j++) {
-			LE_MIN = MIN(LE_MIN, image[i][j]);
-			LE_MAX = MAX(LE_MAX, image[i][j]);
-		}
-	}*/
 
 	if DEBUG printf("\t Min %d ; Max %d \n\n", LE_MIN, LE_MAX);
 
@@ -214,14 +195,9 @@ InitClock;
 ClockStart;
 
 	for (i = 0 ; i < X*Y ; i=i+8) {
-		
 		__m256i vec_image;
 		memcpy(&vec_image, &image[i], sizeof(__m256i));
-		
 		__m256i vec_resultat = _mm256_mullo_epi16(_mm256_add_epi16(vec_image, vec_LE_MIN), vec_ETALEMENT);
-
-		//_mm_storeu_si16(&resultat[i], vec_resultat);
-
 		memcpy(&resultat[i], &vec_resultat, sizeof(__m256i));
 	}
 
@@ -243,20 +219,7 @@ if TPSCALCUL printf(ClockMesureSec);
 			fprintf(Dst, "\n");
 		}
 	}
-
-	/*
-	for (i = 0 ; i < Y ; i++) {
-		for (j = 0 ; j < X ; j++) {
-			
-			fprintf(Dst,"%3d ",resultat[i][j]);
-			n++;
-			if (n == NBPOINTSPARLIGNES) {
-				n = 0;
-				fprintf(Dst, "\n");
-			}
-		}
-	}*/
-				
+	
 	fprintf(Dst,"\n");
 	fclose(Dst);
 	

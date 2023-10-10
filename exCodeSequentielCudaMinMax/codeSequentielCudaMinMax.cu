@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
+#include <time.h>
 
 #define MAX_CHAINE 100
 #define MAX_HOSTS 100
@@ -35,16 +35,13 @@
 #define true 1
 #define boolean int
 
-#include <time.h>
-
 #define InitClock    struct timespec start, stop
 #define ClockStart   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start)
 #define ClockEnd   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &stop)
 #define BILLION  1000000000L
 #define ClockMesureSec "%2.9f s\n",(( stop.tv_sec - start.tv_sec )+ (stop.tv_nsec - start.tv_nsec )/(double)BILLION) 
 
-
-#define BLOCKSIZE 1024
+#define BLOCKSIZE 10
 
 #define DEBUG (0)
 #define TPSCALCUL (1)
@@ -56,13 +53,17 @@ __global__ void rehaussement_contraste(int *image, int *res, float etalement, in
 	}
 }
 
-__global__ void calcul_min_max(int *image, int tailleImage) {
+__global__ void calcul_min_max(int *imageMin, int *imageMax, int tailleImage, long N) {
 	long i = (long)blockIdx.x * (long)blockDim.x + (long)threadIdx.x;
-	int decalage = tailleImage/2;
-	if (tailleImage%2 != 0){
-		decalage++;
+	
+	if(i < N) {
+		int decalage = tailleImage/2;
+		if (tailleImage%2 != 0){
+			decalage++;
+		}
+		imageMin[i] = MIN(imageMin[i], imageMin[i+decalage]);
+		imageMax[i] = MAX(imageMax[i], imageMax[i+decalage]);
 	}
-	image[i] = MIN(image[i], image[i+decalage]);
 }
 
 int main(int argc, char **argv) {
@@ -158,49 +159,21 @@ InitClock;
 	CALLOC(image, X*Y, int);
 	CALLOC(resultat, X*Y, int);
 
-/*
-	CALLOC(image, Y+1, int *);
-	CALLOC(resultat, Y+1, int *);
-	for (i=0;i<Y;i++) {
-		CALLOC(image[i], X+1, int);
-		CALLOC(resultat[i], X+1, int);
-		for (j=0;j<X;j++) {
-			image[i][j] = 0;
-			resultat[i][j] = 0;
-		}
-	}
-*/
 	if DEBUG printf("\t\t Initialisation de l'image [%d ; %d] : Ok \n", X, Y);
-			
-	
-	/*x = 0;
-	y = 0;*/
-	cpt = 0;
-	
-	//lignes = 0;
 	
 	/*========================================================================*/
 	/* Lecture du fichier pour remplir l'image source 			*/
 	/*========================================================================*/
 	
+	cpt = 0;
 	while (! feof(Src)) {
 		n = fscanf(Src,"%d",&P);
 
 		image[cpt] = P;
-		/*image[y][x] = P;*/
-		
-		//x ++;
 		cpt ++;
-
 		if (n == EOF || (cpt == X*Y)) {
 			break;
 		}
-
-
-		/*if (x == X) {
-			x = 0 ;
-			y++;
-		}*/
 	}
 
 
@@ -208,41 +181,40 @@ InitClock;
 	if DEBUG printf("\t Lecture du fichier image : Ok \n\n");
 
 	int TailleImageTmp = TailleImage;
-	int *cudaImageMinMax;
+	int *cudaImageMin;
+	int *cudaImageMax;
 	int size = TailleImage*sizeof(int);
 	
-
 	long dimBlock = BLOCKSIZE;
 	long dimGrid;
 	
-	if (cudaMalloc((void **)&cudaImageMinMax, size) == cudaErrorMemoryAllocation) {
+	if (cudaMalloc((void **)&cudaImageMin, size) == cudaErrorMemoryAllocation) {
+		printf("Allocation memoire qui pose probleme (cudaVec) \n");
+	}
+	if (cudaMalloc((void **)&cudaImageMax, size) == cudaErrorMemoryAllocation) {
 		printf("Allocation memoire qui pose probleme (cudaVec) \n");
 	}
 	
-	cudaMemcpy(&cudaImageMinMax[0], &image[0], size, cudaMemcpyHostToDevice);
+	cudaMemcpy(&cudaImageMin[0], &image[0], size, cudaMemcpyHostToDevice);
+	cudaMemcpy(&cudaImageMax[0], &image[0], size, cudaMemcpyHostToDevice);
+
 
 	while (TailleImageTmp != 1) {
-		/*
-		if ((((TailleImageTmp/dimBlock)/2)%2) != 0) {
-			dimGrid = ((TailleImageTmp/dimBlock)/2)+1;
-		}
-		else {
-			dimGrid = (TailleImageTmp/dimBlock)/2;
-		}*/
-		dimGrid = (TailleImageTmp/dimBlock)/2;
-		calcul_min_max<<< dimGrid, dimBlock >>>(cudaImageMinMax, TailleImageTmp);
 
+		int nbThreadNecessaires = TailleImageTmp/2;
+		if(TailleImageTmp%2 != 0) {
+			nbThreadNecessaires++;
+		}
+
+		dimGrid = (TailleImageTmp/dimBlock)/2 + 1;
+		calcul_min_max<<< dimGrid, dimBlock >>>(cudaImageMin, cudaImageMax, TailleImageTmp, nbThreadNecessaires);
 		TailleImageTmp = TailleImageTmp/2;
 	}
 
-
-
-	cudaMemcpy(&LE_MIN, &cudaImageMinMax[0], sizeof(int), cudaMemcpyDeviceToHost);
-
-	printf("Le min : %d \n", LE_MIN);
+	cudaMemcpy(&LE_MIN, &cudaImageMin[0], sizeof(int), cudaMemcpyDeviceToHost);
+	cudaMemcpy(&LE_MAX, &cudaImageMax[0], sizeof(int), cudaMemcpyDeviceToHost);
 
 	if DEBUG printf("\t Min %d ; Max %d \n\n", LE_MIN, LE_MAX);
-
 
 	/*========================================================================*/
 	/* Calcul du facteur d'etalement					*/
@@ -298,19 +270,6 @@ if TPSCALCUL printf(ClockMesureSec);
 			fprintf(Dst, "\n");
 		}
 	}
-
-	/*
-	for (i = 0 ; i < Y ; i++) {
-		for (j = 0 ; j < X ; j++) {
-			
-			fprintf(Dst,"%3d ",resultat[i][j]);
-			n++;
-			if (n == NBPOINTSPARLIGNES) {
-				n = 0;
-				fprintf(Dst, "\n");
-			}
-		}
-	}*/
 				
 	fprintf(Dst,"\n");
 	fclose(Dst);

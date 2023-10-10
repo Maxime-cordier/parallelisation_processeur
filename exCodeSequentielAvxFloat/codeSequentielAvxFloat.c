@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <immintrin.h>
-
+#include <time.h>
 
 #define MAX_CHAINE 100
 #define MAX_HOSTS 100
@@ -36,17 +36,11 @@
 #define true 1
 #define boolean int
 
-
-#include <time.h>
-
 #define InitClock    struct timespec start, stop
 #define ClockStart   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start)
 #define ClockEnd   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &stop)
 #define BILLION  1000000000L
 #define ClockMesureSec "%2.9f s\n",(( stop.tv_sec - start.tv_sec )+ (stop.tv_nsec - start.tv_nsec )/(double)BILLION) 
-
-
-
 
 #define DEBUG (0)
 #define TPSCALCUL (1)
@@ -67,8 +61,6 @@ int main(int argc, char **argv) {
 	
 	float *image;
 	float *resultat;
-	/*int **image;
-	int **resultat;*/
 	int X, Y, cpt;
 	int TailleImage;
 
@@ -81,7 +73,6 @@ int main(int argc, char **argv) {
 	char SrcFile[MAX_CHAINE];
 	char DstFile[MAX_CHAINE+4];
 	char ligne[MAX_CHAINE];
-	
 	
 	boolean fin ;
 	boolean inverse = false;
@@ -153,50 +144,22 @@ InitClock;
 
 	CALLOC(image, X*Y, float);
 	CALLOC(resultat, X*Y, float);
-
-/*
-	CALLOC(image, Y+1, int *);
-	CALLOC(resultat, Y+1, int *);
-	for (i=0;i<Y;i++) {
-		CALLOC(image[i], X+1, int);
-		CALLOC(resultat[i], X+1, int);
-		for (j=0;j<X;j++) {
-			image[i][j] = 0;
-			resultat[i][j] = 0;
-		}
-	}
-*/
 	if DEBUG printf("\t\t Initialisation de l'image [%d ; %d] : Ok \n", X, Y);
-			
-	
-	/*x = 0;
-	y = 0;*/
-	cpt = 0;
-	
-	//lignes = 0;
-	
+
 	/*========================================================================*/
 	/* Lecture du fichier pour remplir l'image source 			*/
 	/*========================================================================*/
 	
+	cpt = 0;
 	while (! feof(Src)) {
 		n = fscanf(Src,"%d",&P);
 
 		image[cpt] = (float)P;
-		/*image[y][x] = P;*/
-		
-		//x ++;
 		cpt ++;
 		
 		if (n == EOF || (cpt == X*Y)) {
 			break;
 		}
-
-
-		/*if (x == X) {
-			x = 0 ;
-			y++;
-		}*/
 	}
 
 
@@ -207,14 +170,6 @@ InitClock;
 		LE_MIN = MIN(LE_MIN, (int)image[i]);
 		LE_MAX = MAX(LE_MAX, (int)image[i]);
 	}
-
-	/*
-	for (i=0;i<Y;i++) {
-		for (j=0;j<X;j++) {
-			LE_MIN = MIN(LE_MIN, image[i][j]);
-			LE_MAX = MAX(LE_MAX, image[i][j]);
-		}
-	}*/
 
 	if DEBUG printf("\t Min %d ; Max %d \n\n", LE_MIN, LE_MAX);
 
@@ -241,14 +196,9 @@ InitClock;
 ClockStart;
 
 	for (i = 0 ; i < X*Y ; i=i+8) {
-		
 		__m256 vec_image;
 		memcpy(&vec_image, &image[i], sizeof(__m256));
-		
 		__m256 vec_resultat = _mm256_mul_ps(_mm256_add_ps(vec_image, vec_LE_MIN), vec_ETALEMENT);
-
-		//_mm_storeu_si16(&resultat[i], vec_resultat);
-
 		memcpy(&resultat[i], &vec_resultat, sizeof(__m256));
 	}
 
@@ -270,19 +220,6 @@ if TPSCALCUL printf(ClockMesureSec);
 			fprintf(Dst, "\n");
 		}
 	}
-
-	/*
-	for (i = 0 ; i < Y ; i++) {
-		for (j = 0 ; j < X ; j++) {
-			
-			fprintf(Dst,"%3d ",resultat[i][j]);
-			n++;
-			if (n == NBPOINTSPARLIGNES) {
-				n = 0;
-				fprintf(Dst, "\n");
-			}
-		}
-	}*/
 				
 	fprintf(Dst,"\n");
 	fclose(Dst);

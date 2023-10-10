@@ -5,54 +5,19 @@ from tqdm import tqdm
 
 
 dico = {
-    "Normal" :{
-    "executablePath": "./exCodeSequentiel/codeSequentiel",
-    "total_execution_time" : 0.0,
-    "execution_times" : [],
-    "color" : "blue"
-},
-"SSE(Float)" :{
-    "executablePath": "./exCodeSequentielSseFloat/codeSequentielSseFloat",
-    "total_execution_time" : 0.0,
-    "execution_times" : [],
-    "color" : "red"
-},
-"SSE(Short)" :{
-    "executablePath": "./exCodeSequentielSseShort/codeSequentielSseShort",
-    "total_execution_time" : 0.0,
-    "execution_times" : [],
-    "color" : "green"
-},
-"SSE(Char)" :{
-    "executablePath": "./exCodeSequentielSseChar/codeSequentielSseChar",
-    "total_execution_time" : 0.0,
-    "execution_times" : [],
-    "color" : "purple"
-},
-"AVX(Float)" :{
-    "executablePath": "./exCodeSequentielAvxFloat/codeSequentielAvxFloat",
-    "total_execution_time" : 0.0,
-    "execution_times" : [],
-    "color" : "orange"
-},
-"AVX(Short)" :{
-    "executablePath": "./exCodeSequentielAvxShort/codeSequentielAvxShort",
-    "total_execution_time" : 0.0,
-    "execution_times" : [],
-    "color" : "black"
-},
-"AVX(Char)" :{
-    "executablePath": "./exCodeSequentielAvxChar/codeSequentielAvxChar",
-    "total_execution_time" : 0.0,
-    "execution_times" : [],
-    "color" : "pink"
-},
+    
 "CUDA" :{
     "executablePath": "./exCodeSequentielCuda/codeSequentielCuda",
     "total_execution_time" : 0.0,
     "execution_times" : [],
     "color" : "gold"
 },
+"CUDA_MIN_MAX" :{
+    "executablePath": "./exCodeSequentielCudaMinMax/codeSequentielCudaMinMax",
+    "total_execution_time" : 0.0,
+    "execution_times" : [],
+    "color" : "olive"
+}
 
 }
 
@@ -82,9 +47,10 @@ for key, value in dico.items():
 
 plt.xlabel("Iteration")
 plt.ylabel("Temps d'execution (s)")
+#plt.yscale('log')
 plt.title("Temps d'execution des differents parallélismes")
 plt.legend()
 #save
 plt.gcf().set_size_inches(12, 8)
-plt.savefig("results_SSE_AVX_CUDA_sans_transfert.png")
+plt.savefig("results_CUDA_Min_Max.png")
 plt.show()

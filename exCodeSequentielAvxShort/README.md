@@ -16,7 +16,7 @@ Utiliser le fichier script.py pour éxécuter n fois le fichier codeSequentielAv
 
 * Compiler le fichier c
 
-``` $ gcc -o codeSequentielAvxShort codeSequentielAvxShort.c ```
+``` $ gcc -o codeSequentielAvxShort codeSequentielAvxShort.c -mavx2```
 
 * Exécuter le fichier .out
 

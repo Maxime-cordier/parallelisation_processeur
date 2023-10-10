@@ -9,13 +9,13 @@ blablabla
 
 # Achitecture et organisation des travaux pratiques
 Les travaux pratiques sont organisés dans des dossiers "exercice" commencant par le préfixé "Ex". Nous pouvons ainsi retrouver les travaux pratiques suivants : 
-- ExCodeSequentiel : Code séquentiel de base de réhaussement de contraste d'image.
-- ExCodeSequentielSSE_float : Code adapté avec des instructions SSE. Les données stockés dans les registres sont de type float.
-- ExCodeSequentielSSE_short : Code adapté avec des instructions SSE. Les données stockés dans les registres sont de type short.
-- ExCodeSequentielSSE_char : Code adapté avec des instructions SSE. Les données stockés dans les registres sont de type char.
-- ExCodeSequentielAVX_float : Code adapté avec des instructions AVX. Les données stockés dans les registres sont de type float.
-- ExCodeSequentielAVX_short : Code adapté avec des instructions AVX. Les données stockés dans les registres sont de type short.
-- ExCodeSequentielAVX_char : Code adapté avec des instructions AVX. Les données stockés dans les registres sont de type char.
+- exCodeSequentiel : Code séquentiel de base de réhaussement de contraste d'image.
+- exCodeSequentielSSE_float : Code adapté avec des instructions SSE. Les données stockés dans les registres sont de type float.
+- exCodeSequentielSSE_short : Code adapté avec des instructions SSE. Les données stockés dans les registres sont de type short.
+- exCodeSequentielSSE_char : Code adapté avec des instructions SSE. Les données stockés dans les registres sont de type char.
+- exCodeSequentielAVX_float : Code adapté avec des instructions AVX. Les données stockés dans les registres sont de type float.
+- exCodeSequentielAVX_short : Code adapté avec des instructions AVX. Les données stockés dans les registres sont de type short.
+- exCodeSequentielAVX_char : Code adapté avec des instructions AVX. Les données stockés dans les registres sont de type char.
 
 Les dossiers suivant sont également présents : 
 - Exemples : Dossiers contenant des exemples d'utilisations de plusieurs type d'instructions.
