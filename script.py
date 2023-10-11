@@ -6,17 +6,29 @@ from tqdm import tqdm
 
 dico = {
     
-"CUDA" :{
-    "executablePath": "./exCodeSequentielCuda/codeSequentielCuda",
+"Normal" :{
+    "executablePath": "./exCodeSequentiel/codeSequentiel",
     "total_execution_time" : 0.0,
     "execution_times" : [],
-    "color" : "gold"
+    "color" : "blue"
 },
-"CUDA_MIN_MAX" :{
-    "executablePath": "./exCodeSequentielCudaMinMax/codeSequentielCudaMinMax",
+"SSE(Float)" :{
+    "executablePath": "./exCodeSequentielSseFloat/codeSequentielSseFloat",
     "total_execution_time" : 0.0,
     "execution_times" : [],
-    "color" : "olive"
+    "color" : "red"
+},
+"SSE(Short)" :{
+    "executablePath": "./exCodeSequentielSseShort/codeSequentielSseShort",
+    "total_execution_time" : 0.0,
+    "execution_times" : [],
+    "color" : "green"
+},
+"SSE(Char)" :{
+    "executablePath": "./exCodeSequentielSseChar/codeSequentielSseChar",
+    "total_execution_time" : 0.0,
+    "execution_times" : [],
+    "color" : "purple"
 }
 
 }
@@ -52,5 +64,5 @@ plt.title("Temps d'execution des differents parallélismes")
 plt.legend()
 #save
 plt.gcf().set_size_inches(12, 8)
-plt.savefig("results_CUDA_Min_Max.png")
+plt.savefig("results_SSE.png")
 plt.show()

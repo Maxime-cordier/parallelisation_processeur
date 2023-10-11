@@ -192,8 +192,6 @@ InitClock;
 	__m256i vec_LE_MIN = _mm256_set1_epi8((unsigned char) - LE_MIN);
 	__m256i vec_ETALEMENT = _mm256_set1_epi16((short) ETALEMENT);
 
-	
-	
 ClockStart;
 
 	for (i = 0 ; i < X*Y ; i=i+16) {
