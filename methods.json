@@ -46,6 +46,12 @@
     "total_execution_time" : 0.0,
     "execution_times" : [],
     "color" : "gold"
+},
+"OpenMP" :{
+    "executablePath": "./exCodeSequentielOpenMp/codeSequentielOpenMp",
+    "total_execution_time" : 0.0,
+    "execution_times" : [],
+    "color" : "grey"
 }
 
 }

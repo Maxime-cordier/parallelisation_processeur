@@ -29,6 +29,12 @@ dico = {
     "total_execution_time" : 0.0,
     "execution_times" : [],
     "color" : "purple"
+},
+"OpenMP" :{
+    "executablePath": "./exCodeSequentielOpenMp/codeSequentielOpenMp",
+    "total_execution_time" : 0.0,
+    "execution_times" : [],
+    "color" : "grey"
 }
 
 }
@@ -64,5 +70,5 @@ plt.title("Temps d'execution des differents parallélismes")
 plt.legend()
 #save
 plt.gcf().set_size_inches(12, 8)
-plt.savefig("results_SSE.png")
+plt.savefig("results_OpenMP_SSE.png")
 plt.show()
