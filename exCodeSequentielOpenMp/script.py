@@ -3,35 +3,48 @@ import re
 import matplotlib.pyplot as plt
 
 nb_iteration = int(input("Nombre d'itérations : "))
+nombre_thread = int(input("Nombre de max de threads : "))
 executablePath = "./codeSequentielOpenMp"
 image = "../images/image1.pgm"
 
 total_execution_time = 0.0
 execution_times = []
+mean_execution_times = []
+range_threads = range(1, nombre_thread)
 
-for i in range(nb_iteration):
-    try:
-        result = subprocess.run([executablePath, image], capture_output=True, check=True)
+for j in range_threads:
+    execution_times = []
+    total_execution_time = 0.0
+    for i in range(nb_iteration):
+        try:
+            result = subprocess.run([executablePath, image, str(j)], capture_output=True, check=True)
 
+            output_text = result.stdout.decode('utf-8')
 
-        output_text = result.stdout.decode('utf-8')
+            execution_time_str = re.search(r'(\d+\.\d+)', output_text).group(1)
+            execution_time = float(execution_time_str)
+            
+            execution_times.append(execution_time)
 
-        execution_time_str = re.search(r'(\d+\.\d+)', output_text).group(1)
-        execution_time = float(execution_time_str)
-        
-        execution_times.append(execution_time)
+            total_execution_time += execution_time
 
-        total_execution_time += execution_time
+        except subprocess.CalledProcessError as e:
+            print(f"Erreur lors de l'exécution de l'exécutable C : {e}")
+        except FileNotFoundError:
+            print(f"Fichier exécutable C introuvable à l'emplacement : {executablePath}")
 
-    except subprocess.CalledProcessError as e:
-        print(f"Erreur lors de l'exécution de l'exécutable C : {e}")
-    except FileNotFoundError:
-        print(f"Fichier exécutable C introuvable à l'emplacement : {executablePath}")
+    average_execution_time = total_execution_time/nb_iteration
+    print(f"Temps d'execution pour {nb_iteration} iterations: {average_execution_time:.9f} secondes")
 
-average_execution_time = total_execution_time/nb_iteration
-print(f"Temps d'execution pour {nb_iteration} iterations: {average_execution_time:.9f} secondes")
+    mean_execution_times.append(average_execution_time)
 
-plt.plot(execution_times, label="Variation du temps d'execution")
+plt.plot(range_threads, mean_execution_times, label="Variation de la moyenne du temps d'execution")
+
+plt.legend()
+plt.savefig("resultats.png")
+plt.show()
+
+'''plt.plot(execution_times, label="Variation du temps d'execution")
 plt.axhline(average_execution_time, color="red", label="Temps moyen d'execution")
 
 plt.title("Temps d'executions de l'algorithme CodeSequencielOpenMp.c")
@@ -40,4 +53,4 @@ plt.ylabel("Temps d'executions (s)")
 plt.legend()
 plt.subplots_adjust(left=0.2, right=0.8, top=0.9, bottom=0.1)
 plt.savefig("resultats_10thread.png")
-plt.show()
+plt.show()'''

@@ -12,29 +12,23 @@ dico = {
     "execution_times" : [],
     "color" : "blue"
 },
-"SSE(Float)" :{
-    "executablePath": "./exCodeSequentielSseFloat/codeSequentielSseFloat",
-    "total_execution_time" : 0.0,
-    "execution_times" : [],
-    "color" : "red"
-},
-"SSE(Short)" :{
-    "executablePath": "./exCodeSequentielSseShort/codeSequentielSseShort",
-    "total_execution_time" : 0.0,
-    "execution_times" : [],
-    "color" : "green"
-},
 "SSE(Char)" :{
     "executablePath": "./exCodeSequentielSseChar/codeSequentielSseChar",
     "total_execution_time" : 0.0,
     "execution_times" : [],
     "color" : "purple"
 },
-"OpenMP" :{
-    "executablePath": "./exCodeSequentielOpenMp/codeSequentielOpenMp",
+"AVX(Char)" :{
+    "executablePath": "./exCodeSequentielAvxChar/codeSequentielAvxChar",
     "total_execution_time" : 0.0,
     "execution_times" : [],
-    "color" : "grey"
+    "color" : "pink"
+},
+"CUDA" :{
+    "executablePath": "./exCodeSequentielCuda/codeSequentielCuda",
+    "total_execution_time" : 0.0,
+    "execution_times" : [],
+    "color" : "gold"
 }
 
 }

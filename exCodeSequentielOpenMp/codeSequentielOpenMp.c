@@ -75,6 +75,7 @@ int main(int argc, char **argv) {
     
     char ligne[MAX_CHAINE];
     
+    int nombreThreads;
     
     boolean fin ;
     boolean inverse = false;
@@ -90,12 +91,13 @@ InitClock;
     /*========================================================================*/
 
 
-    if (argc != 2){
-        printf("Syntaxe : CodeSequentiel image.pgm \n");
+    if (argc != 3){
+        printf("Syntaxe : CodeSequentiel image.pgm nombreThreads\n");
         exit(-1);
     }
     sscanf(argv[1],"%s", SrcFile);
-    
+    sscanf(argv[2],"%d", &nombreThreads);
+
     sprintf(DstFile,"%s.new",SrcFile);
     
     /*========================================================================*/
@@ -181,9 +183,7 @@ InitClock;
         LE_MIN = MIN(LE_MIN, image[i]);
         LE_MAX = MAX(LE_MAX, image[i]);
     }
-
     if DEBUG printf("\t Min %d ; Max %d \n\n", LE_MIN, LE_MAX);
-
 
     /*========================================================================*/
     /* Calcul du facteur d'etalement                    */
@@ -198,16 +198,14 @@ InitClock;
     /*========================================================================*/
     /* Calcul de cahque nouvelle valeur de pixel                            */
     /*========================================================================*/
-    
-ClockStart;
+    omp_set_num_threads(nombreThreads);
 
-	omp_set_num_threads(10);
+ClockStart;
 	#pragma omp parallel for
     for (i = 0 ; i < TailleImage ; i++) {
         resultat[i] = ((image[i] - LE_MIN) * ETALEMENT);
-		printf("Hello from thread %d, nthreads %d for pixel i = %d \n", omp_get_thread_num(), omp_get_num_threads(), i);
+		//printf("Hello from thread %d, nthreads %d for pixel i = %d \n", omp_get_thread_num(), omp_get_num_threads(), i);
     }
-
 ClockEnd;
 
 
