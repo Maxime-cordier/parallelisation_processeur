@@ -1,0 +1,12 @@
+Device Number: 0
+  Device name: NVIDIA GeForce RTX 3080 Ti
+  Memory Clock Rate (KHz): 9501000
+  Global Memory (bytes): 12630294528
+  Memory Bus Width (bits): 384
+  Peak Memory Bandwidth (GB/s): 912.096000
+   Max Thread per block : 1024 
+   Multiproc count : 80 
+   Max Grid size : 2147483647 65535 65535 
+   Max thread dim : 1024 1024 64 
+   Registres per block : 65536 
+

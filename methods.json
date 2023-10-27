@@ -41,11 +41,23 @@
     "execution_times" : [],
     "color" : "pink"
 },
-"CUDA" :{
-    "executablePath": "./exCodeSequentielCuda/codeSequentielCuda",
+"CUDA avec tranfert" :{
+    "executablePath": "./exCodeSequentielCuda/codeSequentielCudaAvecTransfert",
     "total_execution_time" : 0.0,
     "execution_times" : [],
     "color" : "gold"
+},
+"CUDA sans transfert" :{
+    "executablePath": "./exCodeSequentielCuda/codeSequentielCudaSansTransfert",
+    "total_execution_time" : 0.0,
+    "execution_times" : [],
+    "color" : "magenta"
+},
+"CUDA min max" :{
+    "executablePath": "./exCodeSequentielCudaMinMax/codeSequentielCudaMinMax",
+    "total_execution_time" : 0.0,
+    "execution_times" : [],
+    "color" : "magenta"
 },
 "OpenMP" :{
     "executablePath": "./exCodeSequentielOpenMp/codeSequentielOpenMp",

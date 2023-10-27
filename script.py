@@ -5,30 +5,17 @@ from tqdm import tqdm
 
 
 dico = {
-    
 "Normal" :{
     "executablePath": "./exCodeSequentiel/codeSequentiel",
     "total_execution_time" : 0.0,
     "execution_times" : [],
     "color" : "blue"
 },
-"SSE(Char)" :{
-    "executablePath": "./exCodeSequentielSseChar/codeSequentielSseChar",
+"OpenMP" :{
+    "executablePath": "./exCodeSequentielOpenMp/codeSequentielOpenMp",
     "total_execution_time" : 0.0,
     "execution_times" : [],
-    "color" : "purple"
-},
-"AVX(Char)" :{
-    "executablePath": "./exCodeSequentielAvxChar/codeSequentielAvxChar",
-    "total_execution_time" : 0.0,
-    "execution_times" : [],
-    "color" : "pink"
-},
-"CUDA" :{
-    "executablePath": "./exCodeSequentielCuda/codeSequentielCuda",
-    "total_execution_time" : 0.0,
-    "execution_times" : [],
-    "color" : "gold"
+    "color" : "grey"
 }
 
 }
@@ -64,5 +51,5 @@ plt.title("Temps d'execution des differents parallélismes")
 plt.legend()
 #save
 plt.gcf().set_size_inches(12, 8)
-plt.savefig("results_OpenMP_SSE.png")
+plt.savefig("./new/results_OpenMP.png")
 plt.show()

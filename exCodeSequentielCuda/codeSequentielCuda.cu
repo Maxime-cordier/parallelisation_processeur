@@ -206,13 +206,13 @@ InitClock;
 	if ((TailleImage % BLOCKSIZE) != 0) {
 		dimGrid++;
 	}
-	
-	int res = cudaMemcpy(&cuda_image[0], &image[0], size, cudaMemcpyHostToDevice);
-ClockStart;
-	rehaussement_contraste<<<dimGrid, dimBlock>>>(cuda_image, cuda_resultat, ETALEMENT, LE_MIN, TailleImage);
-ClockEnd;
-	cudaMemcpy(&resultat[0], &cuda_resultat[0], size, cudaMemcpyDeviceToHost);
 
+ClockStart;	
+	int res = cudaMemcpy(&cuda_image[0], &image[0], size, cudaMemcpyHostToDevice);
+	rehaussement_contraste<<<dimGrid, dimBlock>>>(cuda_image, cuda_resultat, ETALEMENT, LE_MIN, TailleImage);
+
+	cudaMemcpy(&resultat[0], &cuda_resultat[0], size, cudaMemcpyDeviceToHost);
+ClockEnd;
 if TPSCALCUL printf(ClockMesureSec);
 
 	/*========================================================================*/
